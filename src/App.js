@@ -19,8 +19,6 @@ class App {
 
         let replacedInput = input.replace(/\/|\\n/g, '');
         arr = replacedInput.split(new RegExp(`[${delimiter},:]`));
-        Console.print(delimiter);
-        Console.print(arr);
       } else {
         arr = input.split(/[,:]/);
       }
@@ -33,7 +31,7 @@ class App {
       }
     }
 
-    Console.print(result);
+    Console.print('결과 : ' + result);
   }
 }
 
