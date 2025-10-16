@@ -2,14 +2,20 @@ import { Console } from '@woowacourse/mission-utils';
 
 class App {
   async run() {
-    try {
-      const input = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
-      if (!input) {
-        throw new Error('[ERROR] 빈 문자열입니다.');
+    let result = 0;
+    const input = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
+
+    if (!input) {
+      result = 0;
+    } else {
+      let arr = input.split(/[,:]/);
+      for (let i = 0; i < arr.length; i++) {
+        arr[i] = parseInt(arr[i]);
+        result += arr[i];
       }
-    } catch (e) {
-      Console.print(e.message);
     }
+
+    Console.print(result);
   }
 }
 
