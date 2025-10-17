@@ -18,7 +18,7 @@ class App {
         const delimiter = input.substring(startIndex + start.length, endIndex);
 
         let replacedInput = input.replace(/\/|\\n/g, '');
-        arr = replacedInput.split(new RegExp(`[${delimiter},:]`));
+        arr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
       } else {
         arr = input.split(/[,:]/);
       }
@@ -32,7 +32,6 @@ class App {
             throw new Error('[ERROR] 입력된 문자열에 음수가 포함되어있습니다.');
           }
         }
-
         Console.print('결과 : ' + result);
       } catch (e) {
         Console.print(e.message);
