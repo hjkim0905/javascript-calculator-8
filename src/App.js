@@ -13,9 +13,8 @@ class App {
       throw new Error('[ERROR] 입력된 문자열에 숫자가 포함되어있지 않습니다.');
     } else {
       const start = '//';
-      const end = '\\n';
-      const startIndex = input.indexOf(start);
-      const endIndex = input.indexOf(end);
+      const startIndex = input.indexOf('start');
+      const endIndex = input.indexOf('\\n');
 
       if (startIndex !== -1 && endIndex !== -1) {
         const delimiter = input.substring(startIndex + start.length, endIndex);
@@ -24,11 +23,12 @@ class App {
         stringArr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
       } else {
         stringArr = input.split(/[,:]/);
-        for (let i = 0; i < stringArr.length; i++) {
-          if ((stringArr[i] !== ',' || stringArr[i] !== ':') && isNaN(stringArr[i])) {
+
+        stringArr.forEach((str) => {
+          if (str !== ',' || str !== ':') {
             throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
           }
-        }
+        });
       }
 
       stringArr.forEach((num) => {
