@@ -25,7 +25,7 @@ class App {
 
       for (let i = 0; i < arr.length; i++) {
         const num = parseInt(arr[i]);
-        if (!isNaN(num)) {
+        if (!Number.isNaN(num)) {
           result += num;
         }
       }
