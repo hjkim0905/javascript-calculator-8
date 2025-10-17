@@ -3,8 +3,8 @@ import { Console } from '@woowacourse/mission-utils';
 class App {
   async run() {
     let result = 0;
-    let stringArr = [];
-    let numArr = [];
+    let strArr = [];
+
     const input = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
 
     if (!input) {
@@ -20,20 +20,18 @@ class App {
         const delimiter = input.substring(startIndex + start.length, endIndex);
 
         let replacedInput = input.replace(/\/|\\n/g, '');
-        stringArr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
+        strArr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
       } else {
-        stringArr = input.split(/[,:]/);
+        strArr = input.split(/[,:]/);
 
-        stringArr.forEach((str) => {
-          if (str !== ',' || str !== ':') {
+        strArr.forEach((str) => {
+          if ((str !== ',' || str !== ':') && isNaN(str)) {
             throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
           }
         });
       }
 
-      stringArr.forEach((num) => {
-        numArr.push(parseInt(num));
-      });
+      let numArr = strArr.map(Number);
 
       result = numArr.reduce(function (acc, cur) {
         if (acc < 0) {
