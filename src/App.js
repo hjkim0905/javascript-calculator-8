@@ -13,20 +13,25 @@ class App {
       throw new Error('[ERROR] 입력된 문자열에 숫자가 포함되어있지 않습니다.');
     } else {
       const start = '//';
-      const startIndex = input.indexOf('start');
+      const startIndex = input.indexOf(start);
       const endIndex = input.indexOf('\\n');
 
       if (startIndex !== -1 && endIndex !== -1) {
         const delimiter = input.substring(startIndex + start.length, endIndex);
 
-        let replacedInput = input.replace(/\/|\\n/g, '');
+        let replacedInput = input.replace(/\/\/|\\n/g, '');
         strArr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
+        Console.print(strArr + delimiter);
       } else {
         strArr = input.split(/[,:]/);
 
         strArr.forEach((str) => {
           if ((str !== ',' || str !== ':') && isNaN(str)) {
-            throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
+            throw new Error(
+              '[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.' +
+                startIndex +
+                endIndex,
+            );
           }
         });
       }
