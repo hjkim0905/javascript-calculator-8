@@ -18,20 +18,25 @@ class App {
 
       if (startIndex !== -1 && endIndex !== -1) {
         const delimiter = input.substring(startIndex + start.length, endIndex);
+        const delimiterSection = input.substring(startIndex + start.length, endIndex + 2);
 
-        let replacedInput = input.replace(/\/\/|\\n/g, '');
+        let replacedInput = input.replace(delimiterSection, '');
+        if (
+          !(
+            replacedInput.includes(',') ||
+            replacedInput.includes(':') ||
+            replacedInput.includes(delimiter)
+          )
+        ) {
+          throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
+        }
         strArr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
-        Console.print(strArr + delimiter);
       } else {
         strArr = input.split(/[,:]/);
 
         strArr.forEach((str) => {
           if ((str !== ',' || str !== ':') && isNaN(str)) {
-            throw new Error(
-              '[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.' +
-                startIndex +
-                endIndex,
-            );
+            throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
           }
         });
       }
