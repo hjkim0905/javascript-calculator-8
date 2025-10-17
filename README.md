@@ -26,7 +26,7 @@
 ### 예외 처리
 
 - [ ] 숫자가 아닌 값 입력 시 `[ERROR]` 메시지와 함께 Error 발생
-- [ ] 음수 입력 시 Error 처리
+- [x] 음수 입력 시 Error 처리
 - [ ] 잘못된 커스텀 구분자 형식 처리
 - [ ] Error 발생 시 `process.exit()`을 호출하지 않고 Error throw
 

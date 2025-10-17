@@ -22,16 +22,22 @@ class App {
       } else {
         arr = input.split(/[,:]/);
       }
+      try {
+        for (let i = 0; i < arr.length; i++) {
+          const num = parseInt(arr[i]);
 
-      for (let i = 0; i < arr.length; i++) {
-        const num = parseInt(arr[i]);
-        if (!Number.isNaN(num)) {
-          result += num;
+          if (!Number.isNaN(num) && num > 0) {
+            result += num;
+          } else {
+            throw new Error('[ERROR] 입력된 문자열에 음수가 포함되어있습니다.');
+          }
         }
+
+        Console.print('결과 : ' + result);
+      } catch (e) {
+        Console.print(e.message);
       }
     }
-
-    Console.print('결과 : ' + result);
   }
 }
 
