@@ -3,7 +3,8 @@ import { Console } from '@woowacourse/mission-utils';
 class App {
   async run() {
     let result = 0;
-    let arr = [];
+    let stringArr = [];
+    let numArr = [];
     const input = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
 
     if (!input) {
@@ -20,24 +21,27 @@ class App {
         const delimiter = input.substring(startIndex + start.length, endIndex);
 
         let replacedInput = input.replace(/\/|\\n/g, '');
-        arr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
+        stringArr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
       } else {
-        arr = input.split(/[,:]/);
-        for (let i = 0; i < arr.length; i++) {
-          if ((arr[i] !== ',' || arr[i] !== ':') && isNaN(arr[i])) {
+        stringArr = input.split(/[,:]/);
+        for (let i = 0; i < stringArr.length; i++) {
+          if ((stringArr[i] !== ',' || stringArr[i] !== ':') && isNaN(stringArr[i])) {
             throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
           }
         }
       }
-      for (let i = 0; i < arr.length; i++) {
-        const num = parseInt(arr[i]);
 
-        if (!Number.isNaN(num) && num > 0) {
-          result += num;
-        } else {
+      stringArr.forEach((num) => {
+        numArr.push(parseInt(num));
+      });
+
+      result = numArr.reduce(function (acc, cur) {
+        if (acc < 0) {
           throw new Error('[ERROR] 입력된 문자열에 음수가 포함되어있습니다.');
         }
-      }
+        return acc + cur;
+      });
+
       Console.print('결과 : ' + result);
     }
   }
