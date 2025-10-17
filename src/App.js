@@ -21,6 +21,18 @@ class App {
         arr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
       } else {
         arr = input.split(/[,:]/);
+        try {
+          for (let i = 0; i < arr.length; i++) {
+            if ((arr[i] !== ',' || arr[i] !== ':') && isNaN(arr[i])) {
+              throw new Error(
+                '[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.',
+              );
+            }
+          }
+        } catch (e) {
+          Console.print(e.message);
+          return;
+        }
       }
       try {
         for (let i = 0; i < arr.length; i++) {
@@ -32,10 +44,11 @@ class App {
             throw new Error('[ERROR] 입력된 문자열에 음수가 포함되어있습니다.');
           }
         }
-        Console.print('결과 : ' + result);
       } catch (e) {
         Console.print(e.message);
+        return;
       }
+      Console.print('결과 : ' + result);
     }
   }
 }
