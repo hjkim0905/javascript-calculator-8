@@ -2,7 +2,6 @@ import { Console } from '@woowacourse/mission-utils';
 
 class App {
   async run() {
-    let result = 0;
     let strArr = [];
 
     const input = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
@@ -18,19 +17,22 @@ class App {
 
       if (startIndex !== -1 && endIndex !== -1) {
         const delimiter = input.substring(startIndex + start.length, endIndex);
-        const delimiterSection = input.substring(startIndex + start.length, endIndex + 2);
+        const escapedDelimiter = delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const delimiterSection = input.substring(startIndex, endIndex + 2);
 
         let replacedInput = input.replace(delimiterSection, '');
         if (
           !(
             replacedInput.includes(',') ||
             replacedInput.includes(':') ||
-            replacedInput.includes(delimiter)
+            replacedInput.includes(delimiter) ||
+            /^[0-9]+$/.test(replacedInput)
           )
         ) {
           throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
         }
-        strArr = replacedInput.split(new RegExp(`[${delimiter},:]`)).filter(Boolean);
+
+        strArr = replacedInput.split(new RegExp(`[${escapedDelimiter},:]`)).filter(Boolean);
       } else {
         strArr = input.split(/[,:]/);
 
@@ -43,7 +45,7 @@ class App {
 
       let numArr = strArr.map(Number);
 
-      result = numArr.reduce(function (acc, cur) {
+      let result = numArr.reduce(function (acc, cur) {
         if (acc < 0) {
           throw new Error('[ERROR] 입력된 문자열에 음수가 포함되어있습니다.');
         }
