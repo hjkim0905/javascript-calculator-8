@@ -1,4 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
+import { DELIMITER } from './constants/delimiter.js';
 
 class App {
   async run() {
@@ -12,9 +13,9 @@ class App {
     } else if (!/\d/.test(input)) {
       throw new Error('[ERROR] 입력된 문자열에 숫자가 포함되어있지 않습니다.');
     } else {
-      const start = '//';
+      const start = DELIMITER.CUSTOM_PREFIX;
       const startIndex = input.indexOf(start);
-      const endIndex = input.indexOf('\\n');
+      const endIndex = input.indexOf(DELIMITER.CUSTOM_SUFFIX);
 
       if (startIndex !== -1 && endIndex !== -1) {
         const delimiter = input.substring(startIndex + start.length, endIndex);
@@ -24,8 +25,8 @@ class App {
         let replacedInput = input.replace(delimiterSection, '');
         if (
           !(
-            replacedInput.includes(',') ||
-            replacedInput.includes(':') ||
+            replacedInput.includes(DELIMITER.COMMA) ||
+            replacedInput.includes(DELIMITER.COLON) ||
             (delimiter !== '' && replacedInput.includes(delimiter)) ||
             /^[0-9]+$/.test(replacedInput)
           )
@@ -33,9 +34,11 @@ class App {
           throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
         }
 
-        strArr = replacedInput.split(new RegExp(`[${escapedDelimiter},:]`)).filter(Boolean);
+        strArr = replacedInput
+          .split(new RegExp(`[${escapedDelimiter}${DELIMITER.COMMA}${DELIMITER.COLON}]`))
+          .filter(Boolean);
       } else {
-        strArr = input.split(/[,:]/);
+        strArr = input.split(DELIMITER.DEFAULT_REGEX);
 
         strArr.forEach((str) => {
           if (str !== ',' && str !== ':' && isNaN(str)) {
