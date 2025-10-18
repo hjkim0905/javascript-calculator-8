@@ -1,9 +1,5 @@
 export const DELIMITER = {
   DEFAULT_REGEX: /[,:]/,
-  COMMA: ',',
-  COLON: ':',
   CUSTOM_PREFIX: '//',
   CUSTOM_SUFFIX: '\\n',
-  CUSTOM_PREFIX_LENGTH: 2,
-  CUSTOM_SUFFIX_LENGTH: 1,
 };
