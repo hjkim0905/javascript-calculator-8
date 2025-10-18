@@ -3,6 +3,7 @@ import { Console } from '@woowacourse/mission-utils';
 class App {
   async run() {
     let strArr = [];
+    let result = 0;
 
     const input = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
 
@@ -25,7 +26,7 @@ class App {
           !(
             replacedInput.includes(',') ||
             replacedInput.includes(':') ||
-            replacedInput.includes(delimiter) ||
+            (delimiter !== '' && replacedInput.includes(delimiter)) ||
             /^[0-9]+$/.test(replacedInput)
           )
         ) {
@@ -37,7 +38,7 @@ class App {
         strArr = input.split(/[,:]/);
 
         strArr.forEach((str) => {
-          if ((str !== ',' || str !== ':') && isNaN(str)) {
+          if (str !== ',' && str !== ':' && isNaN(str)) {
             throw new Error('[ERROR] 입력값에 구분자로 사용될 수 없는 문자열이 포함되어있습니다.');
           }
         });
@@ -45,15 +46,14 @@ class App {
 
       let numArr = strArr.map(Number);
 
-      let result = numArr.reduce(function (acc, cur) {
+      result = numArr.reduce(function (acc, cur) {
         if (acc < 0) {
           throw new Error('[ERROR] 입력된 문자열에 음수가 포함되어있습니다.');
         }
         return acc + cur;
       });
-
-      Console.print('결과 : ' + result);
     }
+    Console.print('결과 : ' + result);
   }
 }
 
