@@ -1,56 +1,58 @@
 import { Console } from '@woowacourse/mission-utils';
-import { DELIMITER } from './constants/delimiter.js';
+import { DELIMITER } from './constants/DELIMITER.js';
 import { REGEX } from './constants/regex.js';
 import { ERROR_MESSAGE } from './constants/error.js';
 import { MESSAGE } from './constants/message.js';
 
 class App {
   async run() {
-    let strArr = [];
+    let splittedStrings = [];
     let result = 0;
 
-    const input = await Console.readLineAsync(MESSAGE.INPUT_PROMPT);
+    const INPUT = await Console.readLineAsync(MESSAGE.INPUT_PROMPT);
 
-    if (!input) {
+    if (!INPUT) {
       result = 0;
-    } else if (!REGEX.HAS_NUMBER.test(input)) {
+    } else if (!REGEX.HAS_NUMBER.test(INPUT)) {
       throw new Error(ERROR_MESSAGE.NO_NUMBER);
     } else {
-      const start = DELIMITER.CUSTOM_PREFIX;
-      const startIndex = input.indexOf(start);
-      const endIndex = input.indexOf(DELIMITER.CUSTOM_SUFFIX);
+      const START = DELIMITER.CUSTOM_PREFIX;
+      const START_INDEX = INPUT.indexOf(START);
+      const END_INDEX = INPUT.indexOf(DELIMITER.CUSTOM_SUFFIX);
 
-      if (startIndex !== -1 && endIndex !== -1) {
-        const delimiter = input.substring(startIndex + start.length, endIndex);
-        const escapedDelimiter = delimiter.replace(REGEX.ESCAPE_SPECIAL_CHAR, '\\$&');
-        const delimiterSection = input.substring(startIndex, endIndex + 2);
+      if (START_INDEX !== -1 && END_INDEX !== -1) {
+        const DELIMITER = INPUT.substring(START_INDEX + START.length, END_INDEX);
+        const ESCAPED_DELIMITER = DELIMITER.replace(REGEX.ESCAPE_SPECIAL_CHAR, '\\$&');
+        const DELIMITER_SECTION = INPUT.substring(START_INDEX, END_INDEX + 2);
 
-        let replacedInput = input.replace(delimiterSection, '');
+        let replacedInput = INPUT.replace(DELIMITER_SECTION, '');
         if (
           !(
             replacedInput.includes(',') ||
             replacedInput.includes(':') ||
-            (delimiter !== '' && replacedInput.includes(delimiter)) ||
+            (DELIMITER !== '' && replacedInput.includes(DELIMITER)) ||
             REGEX.ONLY_NUMBER.test(replacedInput)
           )
         ) {
           throw new Error(ERROR_MESSAGE.INVALID_DELIMITER);
         }
 
-        strArr = replacedInput.split(new RegExp(`[${escapedDelimiter},:]`)).filter(Boolean);
+        splittedStrings = replacedInput
+          .split(new RegExp(`[${ESCAPED_DELIMITER},:]`))
+          .filter(Boolean);
       } else {
-        strArr = input.split(DELIMITER.DEFAULT_REGEX);
+        splittedStrings = INPUT.split(DELIMITER.DEFAULT_REGEX);
 
-        strArr.forEach((str) => {
+        splittedStrings.forEach((str) => {
           if (str !== ',' && str !== ':' && isNaN(str)) {
             throw new Error(ERROR_MESSAGE.INVALID_DELIMITER);
           }
         });
       }
 
-      let numArr = strArr.map(Number);
+      const NUMBERS = splittedStrings.map(Number);
 
-      result = numArr.reduce(function (acc, cur) {
+      result = NUMBERS.reduce(function (acc, cur) {
         if (acc < 0) {
           throw new Error(ERROR_MESSAGE.NEGATIVE_NUMBER);
         }
