@@ -42,12 +42,7 @@ export function calculateSum(input) {
     splittedStrings = replacedInput.split(new RegExp(`[${ESCAPED_DELIMITER},:]`)).filter(Boolean);
 
     const NUMBERS = splittedStrings.map(Number);
-    result = NUMBERS.reduce(function (acc, cur) {
-      if (acc < 0) {
-        throw new Error(ERROR_MESSAGE.NEGATIVE_NUMBER);
-      }
-      return acc + cur;
-    });
+    result = sumNumbers(NUMBERS);
 
     return result;
   }
@@ -60,11 +55,15 @@ export function calculateSum(input) {
   });
 
   const NUMBERS = splittedStrings.map(Number);
-  result = NUMBERS.reduce(function (acc, cur) {
+  result = sumNumbers(NUMBERS);
+  return result;
+}
+
+export function sumNumbers(numbers) {
+  return numbers.reduce(function (acc, cur) {
     if (acc < 0) {
       throw new Error(ERROR_MESSAGE.NEGATIVE_NUMBER);
     }
     return acc + cur;
   });
-  return result;
 }
