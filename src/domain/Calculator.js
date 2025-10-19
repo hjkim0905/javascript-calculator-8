@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE } from '../constants/error.js';
-import { parseInput } from './StringParser.js';
+import { parseInput } from './Parser.js';
 
 export function calculateSum(input) {
   const NUMBERS = parseInput(input);
