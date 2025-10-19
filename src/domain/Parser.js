@@ -15,7 +15,7 @@ export function parseInput(input) {
 }
 
 function hasCustomDelimiter(input) {
-  return input.startsWith(DELIMITER.CUSTOM_PREFIX);
+  return input.includes(DELIMITER.CUSTOM_PREFIX) && input.includes(DELIMITER.CUSTOM_SUFFIX);
 }
 
 function parseWithCustomDelimiter(input) {

@@ -244,6 +244,21 @@ describe('문자열 계산기 - 추가 테스트', () => {
     });
   });
 
+  test('커스텀 구분자와 기본 구분자 혼합 사용 (문자열 중간에 있을 때)', async () => {
+    const inputs = ['1;2,//;\\n3:4'];
+    mockQuestions(inputs);
+
+    const logSpy = getLogSpy();
+    const outputs = ['결과 : 10'];
+
+    const app = new App();
+    await app.run();
+
+    outputs.forEach((output) => {
+      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
+    });
+  });
+
   test('소수점이 포함된 입력 계산', async () => {
     const inputs = ['1,2.5,3'];
     mockQuestions(inputs);
