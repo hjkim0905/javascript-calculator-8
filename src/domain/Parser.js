@@ -33,7 +33,13 @@ function parseWithCustomDelimiter(input) {
 
   const splittedStrings = content.split(new RegExp(`[${escapedDelimiter},:]`)).filter(Boolean);
 
-  return splittedStrings.map(Number);
+  const numbers = splittedStrings.map(Number);
+
+  if (numbers.some(isNaN)) {
+    throw new Error(ERROR_MESSAGE.INVALID_DELIMITER);
+  }
+
+  return numbers;
 }
 
 function parseWithDefaultDelimiter(input) {
